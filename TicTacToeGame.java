@@ -3,6 +3,12 @@ package com.bridgelabz.workshop;
 import java.util.Scanner;
 
 public class TicTacToeGame {
+	private static final int HEAD = 0;
+	private static final int TAIL = 1;
+
+	enum Player {
+		USER, COMPUTER;
+	}
 
 	/**
 	 * uc1
@@ -58,19 +64,39 @@ public class TicTacToeGame {
 	 * @return
 	 */
 	public static int findPostitionWhichIsFree(char board[], char playerLetter) {
+		int selectedIndex;
 		while (true) {
-			Scanner desiedLocation = new Scanner(System.in);
+			Scanner desiredLocation = new Scanner(System.in);
 			System.out.println("Enter desired location in the board");
-			int selectedIndex = desiedLocation.nextInt();
+			selectedIndex = desiredLocation.nextInt();
 			if (board[selectedIndex] == ' ') {
-				return selectedIndex;
+				break;
 			}
 		}
+		return selectedIndex;
 	}
 
-	public static void makeMove(char board[], char playerLetter) {
-		int userLocation = findPostitionWhichIsFree(board, playerLetter);
-		board[userLocation] = playerLetter;
+	/**
+	 * uc5
+	 * 
+	 * @param board
+	 * @param playerLetter
+	 */
+	public static void makeMove(char board[], char letter, int selectedIndex) {
+		board[selectedIndex] = letter;
+	}
+
+	/**
+	 * uc6
+	 * 
+	 * @return
+	 */
+	public static Player whoWinToss() {
+		if ((int) Math.floor((Math.random() * 10) % 2) == HEAD)
+			return Player.USER;
+		else
+			return Player.COMPUTER;
+
 	}
 
 	public static void main(String[] args) {
@@ -80,7 +106,13 @@ public class TicTacToeGame {
 		char playerLetter = scannerObject.next().charAt(0);
 		char computerLetter = chooseLetter(playerLetter);
 		showBoard(board);
-		findPostitionWhichIsFree(board, playerLetter);
+		if (whoWinToss() == Player.USER) {
+			int desiredLocation = findPostitionWhichIsFree(board, playerLetter);
+			makeMove(board, playerLetter, desiredLocation);
+		} else {
+			int desiredLocation = findPostitionWhichIsFree(board, computerLetter);
+			makeMove(board, computerLetter, desiredLocation);
+		}
 
 	}
 }

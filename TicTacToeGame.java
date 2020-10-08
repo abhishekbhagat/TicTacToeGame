@@ -68,6 +68,11 @@ public class TicTacToeGame {
 		}
 	}
 
+	public static void makeMove(char board[], char playerLetter) {
+		int userLocation = findPostitionWhichIsFree(board, playerLetter);
+		board[userLocation] = playerLetter;
+	}
+
 	public static void main(String[] args) {
 		char board[] = createBoard();
 		Scanner scannerObject = new Scanner(System.in);

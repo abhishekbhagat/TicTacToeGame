@@ -99,19 +99,61 @@ public class TicTacToeGame {
 
 	}
 
+	/**
+	 * uc7
+	 * 
+	 * @param board
+	 * @param userLetter
+	 */
+	public static boolean checkIsPlayerWinOrNot(char board[], char playerLetter) {
+		if (checkRow(board, playerLetter) || checkColumn(board, playerLetter) || checkDiagonal(board, playerLetter))
+			return true;
+		else
+			return false;
+	}
+
+	public static boolean checkRow(char board[], char playerLetter) {
+		if ((board[0] == playerLetter && board[1] == playerLetter && board[2] == playerLetter)
+				|| (board[3] == playerLetter && board[4] == playerLetter && board[5] == playerLetter)
+				|| (board[6] == playerLetter && board[7] == playerLetter && board[8] == playerLetter))
+			return true;
+		return false;
+	}
+
+	public static boolean checkColumn(char board[], char playerLetter) {
+		if ((board[0] == playerLetter && board[3] == playerLetter && board[6] == playerLetter)
+				|| (board[1] == playerLetter && board[4] == playerLetter && board[7] == playerLetter)
+				|| (board[1] == playerLetter && board[4] == playerLetter && board[7] == playerLetter))
+			return true;
+		else
+			return false;
+	}
+
+	public static boolean checkDiagonal(char board[], char playerLetter) {
+		if ((board[0] == playerLetter && board[4] == playerLetter && board[8] == playerLetter)
+				|| (board[2] == playerLetter && board[4] == playerLetter && board[6] == playerLetter))
+			return true;
+		else
+			return false;
+	}
+
 	public static void main(String[] args) {
 		char board[] = createBoard();
-		Scanner scannerObject = new Scanner(System.in);
+		Scanner scannnerLetterObject = new Scanner(System.in);
 		System.out.println("Player please choose a letter X OR O ");
-		char playerLetter = scannerObject.next().charAt(0);
-		char computerLetter = chooseLetter(playerLetter);
+		char userLetter = scannnerLetterObject.next().charAt(0);
+		char computerLetter = chooseLetter(userLetter);
 		showBoard(board);
 		if (whoWinToss() == Player.USER) {
-			int desiredLocation = findPostitionWhichIsFree(board, playerLetter);
-			makeMove(board, playerLetter, desiredLocation);
+			int desiredLocation = findPostitionWhichIsFree(board, userLetter);
+			makeMove(board, userLetter, desiredLocation);
+			if (checkIsPlayerWinOrNot(board, userLetter))
+				System.out.println("Player Won");
 		} else {
 			int desiredLocation = findPostitionWhichIsFree(board, computerLetter);
 			makeMove(board, computerLetter, desiredLocation);
+			if (checkIsPlayerWinOrNot(board, computerLetter))
+				System.out.println("Computer won ");
 		}
 
 	}

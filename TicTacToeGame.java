@@ -176,6 +176,19 @@ public class TicTacToeGame {
 			return (findWiningPosition(board, 'X'));
 	}
 
+	public static int findAvailableCorners(char board[]) {
+		if (board[0] == ' ')
+			return 0;
+		else if (board[2] == ' ')
+			return 2;
+		else if (board[6] == ' ')
+			return 6;
+		else if (board[8] == ' ')
+			return 8;
+		else
+			return -1;
+	}
+
 	public static void main(String[] args) {
 		char board[] = createBoard();
 		Scanner scannnerLetterObject = new Scanner(System.in);
@@ -193,6 +206,9 @@ public class TicTacToeGame {
 
 				makeMove(board, userLetter, findBlockPostion(board, userLetter));
 			} else {
+				int availableCornerPosition = findAvailableCorners(board);
+				if (availableCornerPosition != -1)
+					makeMove(board, userLetter, availableCornerPosition);
 				int desiredLocation = findPostitionWhichIsFree(board, userLetter);
 				makeMove(board, userLetter, desiredLocation);
 				if (checkIsPlayerWinOrNot(board, userLetter))

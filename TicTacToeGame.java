@@ -10,15 +10,9 @@ public class TicTacToeGame {
 	enum Player {
 		USER, COMPUTER;
 	}
-
-	/**
-	 * uc1
-	 * 
-	 * @return
-	 */
 	public static char[] createBoard() {
 		char[] board = new char[10];
-		for (int i = 0; i < 10; i++) {
+		for (int i = 1; i < 10; i++) {
 			board[i] = ' ';
 		}
 		return board;
@@ -34,7 +28,7 @@ public class TicTacToeGame {
 		char computerLetter;
 		if (playerLetter == 'X')
 			computerLetter = 'O';
-		else
+			else
 			computerLetter = 'X';
 		return computerLetter;
 	}
@@ -45,15 +39,13 @@ public class TicTacToeGame {
 	 * @param board
 	 */
 	public static void showBoard(char board[]) {
-		for (int cell = 0; cell < 9; cell++) {
-			if (cell == 3 || cell == 6)
-				System.out.println("\n");
-			if (cell == 2 || cell == 5 || cell == 8)
-				System.out.print(board[cell]);
-			else
-				System.out.print(board[cell] + " |");
+		{
+				System.out.println(board[1] + " |" + board[2] + " |" +board[3] );
+				System.out.println("--------");
+				System.out.println(board[4] + " |" + board[5] + " |" +board[6] );
+				System.out.println("--------");
+				System.out.println(board[7] + " |" + board[8] + " |" +board[9]);
 		}
-		System.out.print("\n");
 	}
 
 	/**
@@ -106,33 +98,35 @@ public class TicTacToeGame {
 	 * @param board
 	 * @param userLetter
 	 */
-	public static boolean checkIsPlayerWinOrNot(char board[], char playerLetter) {
+	public static String checkIsPlayerWinOrNot(char board[], char playerLetter) {
 		if (checkRow(board, playerLetter) || checkColumn(board, playerLetter) || checkDiagonal(board, playerLetter))
-			return true;
-		else
-			return false;
+			return "win";
+		for (int cell = 1; cell < 10; cell++) {
+			if (board[cell] == ' ')
+				return "changeTurn";
+		}
+		return "tie";
 	}
 
 	public static boolean checkRow(char board[], char playerLetter) {
-		if ((board[0] == playerLetter && board[1] == playerLetter && board[2] == playerLetter)
-				|| (board[3] == playerLetter && board[4] == playerLetter && board[5] == playerLetter)
-				|| (board[6] == playerLetter && board[7] == playerLetter && board[8] == playerLetter))
+		if ((board[1] == playerLetter && board[2] == playerLetter && board[3] == playerLetter)
+				|| (board[4] == playerLetter && board[5] == playerLetter && board[6] == playerLetter)
+				|| (board[7] == playerLetter && board[8] == playerLetter && board[9] == playerLetter))
 			return true;
 		return false;
 	}
 
 	public static boolean checkColumn(char board[], char playerLetter) {
-		if ((board[0] == playerLetter && board[3] == playerLetter && board[6] == playerLetter)
-				|| (board[1] == playerLetter && board[4] == playerLetter && board[7] == playerLetter)
-				|| (board[1] == playerLetter && board[4] == playerLetter && board[7] == playerLetter))
+		if ((board[1] == playerLetter && board[4] == playerLetter && board[7] == playerLetter)
+				|| (board[3] == playerLetter && board[6] == playerLetter && board[9] == playerLetter)
+				|| (board[2] == playerLetter && board[5] == playerLetter && board[8] == playerLetter))
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public static boolean checkDiagonal(char board[], char playerLetter) {
-		if ((board[0] == playerLetter && board[4] == playerLetter && board[8] == playerLetter)
-				|| (board[2] == playerLetter && board[4] == playerLetter && board[6] == playerLetter))
+		if ((board[1] == playerLetter && board[5] == playerLetter && board[9] == playerLetter)
+				|| (board[3] == playerLetter && board[5] == playerLetter && board[7] == playerLetter))
 			return true;
 		else
 			return false;
@@ -147,15 +141,16 @@ public class TicTacToeGame {
 	 */
 	public static int findWiningPosition(char board[], char playerLetter) {
 		int winingPosition = -1;
-		for (int cell = 0; cell < 9; cell++) {
+		for (int cell = 1; cell < 10; cell++) {
 			if (board[cell] == ' ') {
 				board[cell] = playerLetter;
-				if (checkIsPlayerWinOrNot(board, playerLetter)) {
+				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) 
+				{ 
 					winingPosition = cell;
 					board[cell] = ' ';
 					break;
 				}
-				board[cell] = ' ';
+			 board[cell] = ' ';
 			}
 		}
 		return winingPosition;
@@ -183,14 +178,14 @@ public class TicTacToeGame {
 	 * @return
 	 */
 	public static int findAvailableCorners(char board[]) {
-		if (board[0] == ' ')
-			return 0;
-		else if (board[2] == ' ')
-			return 2;
-		else if (board[6] == ' ')
-			return 6;
-		else if (board[8] == ' ')
-			return 8;
+		if (board[1] == ' ')
+			return 1;
+		else if (board[3] == ' ')
+			return 3;
+		else if (board[7] == ' ')
+			return 7;
+		else if (board[9] == ' ')
+			return 9;
 		else
 			return -1;
 	}
@@ -202,9 +197,9 @@ public class TicTacToeGame {
 	 * @return
 	 */
 	public static int mySubsequentChoices(char board[]) {
-		int center = 4;
-		int freeCell[] = { 1, 3, 5, 7 };
-		if (board[center] == ' ')
+		int center = 5;
+		int freeCell[] = { 2, 4, 6, 8 };
+		if (board[center]== ' ')
 			return center;
 		for (int freeCellIndex = 0; freeCellIndex < 4; freeCellIndex++) {
 			if (freeCell[freeCellIndex] == ' ')
@@ -213,37 +208,72 @@ public class TicTacToeGame {
 		return -1;
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * uc12
+	 * 
+	 * @param board
+	 * @param userLetter
+	 * @param computerLetter
+	 * @return
+	 */
+	public static boolean gameIsOver(char board[], char playerLetter) {
+		if (checkIsPlayerWinOrNot(board, playerLetter).contains("tie"))
+			return true;
+		return false;
+
+	}
+
+	public static void main(String[] args)
+	{
 		char board[] = createBoard();
 		Scanner scannnerLetterObject = new Scanner(System.in);
 		System.out.println("Player please choose a letter X OR O ");
 		char userLetter = scannnerLetterObject.next().charAt(0);
 		char computerLetter = chooseLetter(userLetter);
-		showBoard(board);
-		if (whoWinToss() == Player.USER) {
-			int winingPosition = findWiningPosition(board, userLetter);
+		String player = "";
+		if (whoWinToss() == Player.USER)
+		  player="user";
+		else
+		  player="computer";
+		while(true)
+		{
+			System.out.println("\n");
+			showBoard(board);
+		    char playerLetter;
+			if(player.equals("user"))
+				playerLetter=userLetter;
+			else
+				playerLetter=computerLetter;
+			int winingPosition = findWiningPosition(board,playerLetter);
 			if (winingPosition != -1) {
-				makeMove(board, userLetter, winingPosition);
-				if (checkIsPlayerWinOrNot(board, userLetter))
-					System.out.println("Player Won");
-			} else if (findBlockPostion(board, userLetter) != -1) {
-
-				makeMove(board, userLetter, findBlockPostion(board, userLetter));
-			} else {
-				int availableCornerPosition = findAvailableCorners(board);
-				if (availableCornerPosition != -1)
-					makeMove(board, userLetter, availableCornerPosition);
-				if (mySubsequentChoices(board) != -1)
-					makeMove(board, userLetter, mySubsequentChoices(board));
-				else
-					System.out.println("Match is Tie");
+				makeMove(board, playerLetter, winingPosition);
+				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) {
+					   System.out.println("");
+					    showBoard(board);
+					    System.out.println(player+ " win ");
+						break;
+				}
 			}
-		} else {
-			int desiredLocation = findPostitionWhichIsFree(board, computerLetter);
-			makeMove(board, computerLetter, desiredLocation);
-			if (checkIsPlayerWinOrNot(board, computerLetter))
-				System.out.println("Computer won ");
-		}
-
+			else if (findBlockPostion(board, playerLetter) != -1) {
+				
+				makeMove(board, playerLetter, findBlockPostion(board, playerLetter));
+			}
+			else {
+				int availableCornerPosition = findAvailableCorners(board);
+				if (availableCornerPosition != -1) 
+					makeMove(board,playerLetter, availableCornerPosition);
+				else if (mySubsequentChoices(board) != -1) 
+					makeMove(board, playerLetter, mySubsequentChoices(board));
+				else {
+					}
+			}
+			if(gameIsOver(board,playerLetter))
+				break;
+			if(player.equals("user"))
+				player="computer";
+			else
+				player="user";
+	     }
 	}
+	
 }

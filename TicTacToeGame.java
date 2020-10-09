@@ -176,6 +176,12 @@ public class TicTacToeGame {
 			return (findWiningPosition(board, 'X'));
 	}
 
+	/**
+	 * uc10
+	 * 
+	 * @param board
+	 * @return
+	 */
 	public static int findAvailableCorners(char board[]) {
 		if (board[0] == ' ')
 			return 0;
@@ -187,6 +193,24 @@ public class TicTacToeGame {
 			return 8;
 		else
 			return -1;
+	}
+
+	/**
+	 * uc11
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public static int mySubsequentChoices(char board[]) {
+		int center = 4;
+		int freeCell[] = { 1, 3, 5, 7 };
+		if (board[center] == ' ')
+			return center;
+		for (int freeCellIndex = 0; freeCellIndex < 4; freeCellIndex++) {
+			if (freeCell[freeCellIndex] == ' ')
+				return freeCellIndex;
+		}
+		return -1;
 	}
 
 	public static void main(String[] args) {
@@ -209,10 +233,10 @@ public class TicTacToeGame {
 				int availableCornerPosition = findAvailableCorners(board);
 				if (availableCornerPosition != -1)
 					makeMove(board, userLetter, availableCornerPosition);
-				int desiredLocation = findPostitionWhichIsFree(board, userLetter);
-				makeMove(board, userLetter, desiredLocation);
-				if (checkIsPlayerWinOrNot(board, userLetter))
-					System.out.println("Player Won");
+				if (mySubsequentChoices(board) != -1)
+					makeMove(board, userLetter, mySubsequentChoices(board));
+				else
+					System.out.println("Match is Tie");
 			}
 		} else {
 			int desiredLocation = findPostitionWhichIsFree(board, computerLetter);

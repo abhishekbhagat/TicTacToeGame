@@ -222,51 +222,59 @@ public class TicTacToeGame {
 	}
 
 	public static void main(String[] args) {
-		char board[] = createBoard();
-		Scanner scannnerLetterObject = new Scanner(System.in);
-		System.out.println("Player please choose a letter X OR O ");
-		char userLetter = scannnerLetterObject.next().charAt(0);
-		char computerLetter = chooseLetter(userLetter);
-		String player = "";
-		if (whoWinToss() == Player.USER)
-			player = "user";
-		else
-			player = "computer";
 		while (true) {
-			System.out.println("\n");
-			showBoard(board);
-			char playerLetter;
-			if (player.equals("user"))
-				playerLetter = userLetter;
-			else
-				playerLetter = computerLetter;
-			int winingPosition = findWiningPosition(board, playerLetter);
-			if (winingPosition != -1) {
-				makeMove(board, playerLetter, winingPosition);
-				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) {
-					System.out.println("");
-					showBoard(board);
-					System.out.println(player + " win ");
-					break;
-				}
-			} else if (findBlockPostion(board, playerLetter) != -1) {
-
-				makeMove(board, playerLetter, findBlockPostion(board, playerLetter));
-			} else {
-				int availableCornerPosition = findAvailableCorners(board);
-				if (availableCornerPosition != -1)
-					makeMove(board, playerLetter, availableCornerPosition);
-				else if (mySubsequentChoices(board) != -1)
-					makeMove(board, playerLetter, mySubsequentChoices(board));
-				else {
-				}
-			}
-			if (gameIsOver(board, playerLetter))
-				break;
-			if (player.equals("user"))
-				player = "computer";
-			else
+			char board[] = createBoard();
+			Scanner scannnerLetterObject = new Scanner(System.in);
+			System.out.println("Player please choose a letter X OR O ");
+			char userLetter = scannnerLetterObject.next().charAt(0);
+			char computerLetter = chooseLetter(userLetter);
+			String player = "";
+			if (whoWinToss() == Player.USER)
 				player = "user";
+			else
+				player = "computer";
+			while (true) {
+				System.out.println("\n");
+				showBoard(board);
+				char playerLetter;
+				if (player.equals("user"))
+					playerLetter = userLetter;
+				else
+					playerLetter = computerLetter;
+				int winingPosition = findWiningPosition(board, playerLetter);
+				if (winingPosition != -1) {
+					makeMove(board, playerLetter, winingPosition);
+					if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) {
+						System.out.println("");
+						showBoard(board);
+						System.out.println(player + " win ");
+						break;
+					}
+				} else if (findBlockPostion(board, playerLetter) != -1) {
+
+					makeMove(board, playerLetter, findBlockPostion(board, playerLetter));
+				} else {
+					int availableCornerPosition = findAvailableCorners(board);
+					if (availableCornerPosition != -1)
+						makeMove(board, playerLetter, availableCornerPosition);
+					else if (mySubsequentChoices(board) != -1)
+						makeMove(board, playerLetter, mySubsequentChoices(board));
+					else {
+					}
+				}
+				if (gameIsOver(board, playerLetter))
+					break;
+				if (player.equals("user"))
+					player = "computer";
+				else
+					player = "user";
+			}
+			System.out.println("Do you want to play another game(Yes/No)");
+			Scanner sc = new Scanner(System.in);
+			String nextMatch = sc.next();
+			if (nextMatch.equals("No"))
+				break;
+
 		}
 	}
 

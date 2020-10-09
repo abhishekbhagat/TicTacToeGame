@@ -161,6 +161,21 @@ public class TicTacToeGame {
 		return winingPosition;
 	}
 
+	/**
+	 * uc9
+	 * 
+	 * @param board
+	 * @param playerLetter
+	 * @return
+	 */
+	public static int findBlockPostion(char board[], char playerLetter) {
+
+		if (playerLetter == 'X')
+			return (findWiningPosition(board, 'O'));
+		else
+			return (findWiningPosition(board, 'X'));
+	}
+
 	public static void main(String[] args) {
 		char board[] = createBoard();
 		Scanner scannnerLetterObject = new Scanner(System.in);
@@ -174,6 +189,9 @@ public class TicTacToeGame {
 				makeMove(board, userLetter, winingPosition);
 				if (checkIsPlayerWinOrNot(board, userLetter))
 					System.out.println("Player Won");
+			} else if (findBlockPostion(board, userLetter) != -1) {
+
+				makeMove(board, userLetter, findBlockPostion(board, userLetter));
 			} else {
 				int desiredLocation = findPostitionWhichIsFree(board, userLetter);
 				makeMove(board, userLetter, desiredLocation);

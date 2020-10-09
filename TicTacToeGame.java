@@ -10,6 +10,7 @@ public class TicTacToeGame {
 	enum Player {
 		USER, COMPUTER;
 	}
+
 	public static char[] createBoard() {
 		char[] board = new char[10];
 		for (int i = 1; i < 10; i++) {
@@ -28,7 +29,7 @@ public class TicTacToeGame {
 		char computerLetter;
 		if (playerLetter == 'X')
 			computerLetter = 'O';
-			else
+		else
 			computerLetter = 'X';
 		return computerLetter;
 	}
@@ -39,13 +40,11 @@ public class TicTacToeGame {
 	 * @param board
 	 */
 	public static void showBoard(char board[]) {
-		{
-				System.out.println(board[1] + " |" + board[2] + " |" +board[3] );
-				System.out.println("--------");
-				System.out.println(board[4] + " |" + board[5] + " |" +board[6] );
-				System.out.println("--------");
-				System.out.println(board[7] + " |" + board[8] + " |" +board[9]);
-		}
+		System.out.println(board[1] + " |" + board[2] + " |" + board[3]);
+		System.out.println("--------");
+		System.out.println(board[4] + " |" + board[5] + " |" + board[6]);
+		System.out.println("--------");
+		System.out.println(board[7] + " |" + board[8] + " |" + board[9]);
 	}
 
 	/**
@@ -144,13 +143,12 @@ public class TicTacToeGame {
 		for (int cell = 1; cell < 10; cell++) {
 			if (board[cell] == ' ') {
 				board[cell] = playerLetter;
-				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) 
-				{ 
+				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) {
 					winingPosition = cell;
 					board[cell] = ' ';
 					break;
 				}
-			 board[cell] = ' ';
+				board[cell] = ' ';
 			}
 		}
 		return winingPosition;
@@ -199,7 +197,7 @@ public class TicTacToeGame {
 	public static int mySubsequentChoices(char board[]) {
 		int center = 5;
 		int freeCell[] = { 2, 4, 6, 8 };
-		if (board[center]== ' ')
+		if (board[center] == ' ')
 			return center;
 		for (int freeCellIndex = 0; freeCellIndex < 4; freeCellIndex++) {
 			if (freeCell[freeCellIndex] == ' ')
@@ -223,8 +221,7 @@ public class TicTacToeGame {
 
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		char board[] = createBoard();
 		Scanner scannnerLetterObject = new Scanner(System.in);
 		System.out.println("Player please choose a letter X OR O ");
@@ -232,48 +229,45 @@ public class TicTacToeGame {
 		char computerLetter = chooseLetter(userLetter);
 		String player = "";
 		if (whoWinToss() == Player.USER)
-		  player="user";
+			player = "user";
 		else
-		  player="computer";
-		while(true)
-		{
+			player = "computer";
+		while (true) {
 			System.out.println("\n");
 			showBoard(board);
-		    char playerLetter;
-			if(player.equals("user"))
-				playerLetter=userLetter;
+			char playerLetter;
+			if (player.equals("user"))
+				playerLetter = userLetter;
 			else
-				playerLetter=computerLetter;
-			int winingPosition = findWiningPosition(board,playerLetter);
+				playerLetter = computerLetter;
+			int winingPosition = findWiningPosition(board, playerLetter);
 			if (winingPosition != -1) {
 				makeMove(board, playerLetter, winingPosition);
 				if (checkIsPlayerWinOrNot(board, playerLetter).contains("win")) {
-					   System.out.println("");
-					    showBoard(board);
-					    System.out.println(player+ " win ");
-						break;
+					System.out.println("");
+					showBoard(board);
+					System.out.println(player + " win ");
+					break;
 				}
-			}
-			else if (findBlockPostion(board, playerLetter) != -1) {
-				
+			} else if (findBlockPostion(board, playerLetter) != -1) {
+
 				makeMove(board, playerLetter, findBlockPostion(board, playerLetter));
-			}
-			else {
+			} else {
 				int availableCornerPosition = findAvailableCorners(board);
-				if (availableCornerPosition != -1) 
-					makeMove(board,playerLetter, availableCornerPosition);
-				else if (mySubsequentChoices(board) != -1) 
+				if (availableCornerPosition != -1)
+					makeMove(board, playerLetter, availableCornerPosition);
+				else if (mySubsequentChoices(board) != -1)
 					makeMove(board, playerLetter, mySubsequentChoices(board));
 				else {
-					}
+				}
 			}
-			if(gameIsOver(board,playerLetter))
+			if (gameIsOver(board, playerLetter))
 				break;
-			if(player.equals("user"))
-				player="computer";
+			if (player.equals("user"))
+				player = "computer";
 			else
-				player="user";
-	     }
+				player = "user";
+		}
 	}
-	
+
 }
